@@ -23,7 +23,7 @@ public class Configuration {
         }
 
         public boolean allow(String filename) {
-            return !this.filename.equals(filename);
+            return !filename.endsWith(this.filename);
         }
     }
 
