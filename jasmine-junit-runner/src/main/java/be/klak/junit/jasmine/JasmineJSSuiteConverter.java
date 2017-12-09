@@ -28,21 +28,33 @@ class JasmineJSSuiteConverter {
 			List<String> processed) {
 		List<JasmineSpec> specs = new ArrayList<JasmineSpec>();
 		for (Object idObj : suiteArray.getIds()) {
+		
 			NativeObject suite = (NativeObject) suiteArray.get((Integer) idObj, suiteArray);
-
 			String description = (String) suite.get("description", suite);
 			if (!processed.contains(description)) {
 				Description suiteDescription = addSuiteToDescription(rootDescription, processed, description);
 				specs.addAll(convertToJunitDescription(suite, suiteDescription));
-
-				NativeArray subSuites = (NativeArray) context.executeFunction(suite, "suites");
-				specs.addAll(convertSuiteArrayToDescriptions(subSuites, suiteDescription, processed));
+				specs.addAll(convertSuiteArrayToDescriptions(getSubSuites(suite), suiteDescription, processed));
 			}
 		}
 
 		return specs;
 	}
 
+	private NativeArray getSubSuites(NativeObject suite) {
+		// Really Hacky code till I figure this all out
+		NativeArray specsArray = (NativeArray) suite.get("children");
+		ArrayList<NativeObject> subSuites = new ArrayList<NativeObject>();
+		for (Object idObj2 : specsArray.getIds()) {
+			NativeObject spec = (NativeObject) specsArray.get((Integer) idObj2, specsArray);
+			if (spec.get("id", suite).toString().startsWith("suite")) {
+				subSuites.add(spec);
+			}
+		}
+		return new NativeArray(subSuites.toArray(new NativeObject[subSuites.size()]));
+		
+	}
+	
 	private Description addSuiteToDescription(Description description, List<String> processed, String suiteName) {
 		processed.add(suiteName);
 		Description suiteDescription = Description.createSuiteDescription(suiteName, (Annotation[]) null);
@@ -52,13 +64,15 @@ class JasmineJSSuiteConverter {
 
 	private List<JasmineSpec> convertToJunitDescription(NativeObject suite, Description description) {
 		List<JasmineSpec> specsMap = new ArrayList<JasmineSpec>();
-		NativeArray specsArray = (NativeArray) context.executeFunction(suite, "specs");
+		NativeArray specsArray = (NativeArray) suite.get("children");
 		for (Object idObj : specsArray.getIds()) {
 			NativeObject spec = (NativeObject) specsArray.get((Integer) idObj, specsArray);
-
-			JasmineSpec jasmineSpec = new JasmineSpec(spec);
-			specsMap.add(jasmineSpec);
-			description.addChild(jasmineSpec.getDescription());
+			String id = (String) spec.get("id", suite).toString();
+			if (id.startsWith("spec")) {
+				JasmineSpec jasmineSpec = new JasmineSpec(spec);
+				specsMap.add(jasmineSpec);
+				description.addChild(jasmineSpec.getDescription());
+			}
 		}
 
 		return specsMap;

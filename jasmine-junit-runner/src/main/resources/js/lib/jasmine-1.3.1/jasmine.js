@@ -106,7 +106,7 @@ getJasmineRequireObj().base = function(j$) {
 
   j$.getEnv = function(options) {
     var env = j$.currentEnv_ = j$.currentEnv_ || new j$.Env(options);
-    //jasmine. singletons in here (setTimeout blah blah).
+    // jasmine. singletons in here (setTimeout blah blah).
     return env;
   };
 
@@ -287,7 +287,7 @@ getJasmineRequireObj().Spec = function(j$) {
           done();
         };
 
-        fn.call(this, callDone); //TODO: do we care about more than 1 arg?
+        fn.call(this, callDone); // TODO: do we care about more than 1 arg?
       };
     }
 
@@ -414,6 +414,20 @@ getJasmineRequireObj().Env = function(j$) {
     var equalityTesters = [];
 
     var customEqualityTesters = [];
+    
+    this.getTotalSpecsDefined = function() {
+//    	seen = []
+//    	return JSON.stringify(runnableLookupTable, function(key, val) {
+//    		   if (typeof val == "object") {
+//    		        if (seen.indexOf(val) >= 0)
+//    		            return
+//    		        seen.push(val)
+//    		    }
+//    		    return val
+//    		});
+    	return runnableLookupTable["suite0"].children;
+    }
+    
     this.addCustomEqualityTester = function(tester) {
       customEqualityTesters.push(tester);
     };
@@ -566,7 +580,8 @@ getJasmineRequireObj().Env = function(j$) {
       }
 
       if (obj[methodName] && j$.isSpy(obj[methodName])) {
-        //TODO?: should this return the current spy? Downside: may cause user confusion about spy state
+        // TODO?: should this return the current spy? Downside: may cause user
+		// confusion about spy state
         throw new Error(methodName + ' has already been spied upon');
       }
 
@@ -946,7 +961,7 @@ getJasmineRequireObj().Clock = function() {
     return self;
 
     function legacyIE() {
-      //if these methods are polyfilled, apply will be present
+      // if these methods are polyfilled, apply will be present
       return !(realTimingFunctions.setTimeout || realTimingFunctions.setInterval).apply;
     }
 
@@ -1256,7 +1271,8 @@ getJasmineRequireObj().Expectation = function() {
   return Expectation;
 };
 
-//TODO: expectation result may make more sense as a presentation of an expectation.
+// TODO: expectation result may make more sense as a presentation of an
+// expectation.
 getJasmineRequireObj().buildExpectationResult = function() {
   function buildExpectationResult(options) {
     var messageFormatter = options.messageFormatter || function() {},
@@ -1527,8 +1543,8 @@ getJasmineRequireObj().QueueRunner = function() {
     function handleException(e) {
       self.onException(e);
       if (!self.catchException(e)) {
-        //TODO: set a var when we catch an exception and
-        //use a finally block to close the loop in a nice way..
+        // TODO: set a var when we catch an exception and
+        // use a finally block to close the loop in a nice way..
         throw e;
       }
     }
@@ -1736,7 +1752,8 @@ getJasmineRequireObj().Timer = function() {
 };
 
 getJasmineRequireObj().matchersUtil = function(j$) {
-  // TODO: what to do about jasmine.pp not being inject? move to JSON.stringify? gut PrettyPrinter?
+  // TODO: what to do about jasmine.pp not being inject? move to
+	// JSON.stringify? gut PrettyPrinter?
 
   return {
     equals: function(a, b, customTesters) {
@@ -1786,7 +1803,7 @@ getJasmineRequireObj().matchersUtil = function(j$) {
   };
 
   // Equality function lovingly adapted from isEqual in
-  //   [Underscore](http://underscorejs.org)
+  // [Underscore](http://underscorejs.org)
   function eq(a, b, aStack, bStack, customTesters) {
     var result = true;
 
@@ -1823,7 +1840,8 @@ getJasmineRequireObj().matchersUtil = function(j$) {
     }
 
     // Identical objects are equal. `0 === -0`, but they aren't identical.
-    // See the [Harmony `egal` proposal](http://wiki.ecmascript.org/doku.php?id=harmony:egal).
+    // See the [Harmony `egal`
+	// proposal](http://wiki.ecmascript.org/doku.php?id=harmony:egal).
     if (a === b) { return a !== 0 || 1 / a == 1 / b; }
     // A strict comparison is necessary because `null == undefined`.
     if (a === null || b === null) { return a === b; }
@@ -1832,17 +1850,21 @@ getJasmineRequireObj().matchersUtil = function(j$) {
     switch (className) {
       // Strings, numbers, dates, and booleans are compared by value.
       case '[object String]':
-        // Primitives and their corresponding object wrappers are equivalent; thus, `"5"` is
+        // Primitives and their corresponding object wrappers are equivalent;
+		// thus, `"5"` is
         // equivalent to `new String("5")`.
         return a == String(b);
       case '[object Number]':
-        // `NaN`s are equivalent, but non-reflexive. An `egal` comparison is performed for
+        // `NaN`s are equivalent, but non-reflexive. An `egal` comparison is
+		// performed for
         // other numeric values.
         return a != +a ? b != +b : (a === 0 ? 1 / a == 1 / b : a == +b);
       case '[object Date]':
       case '[object Boolean]':
-        // Coerce dates and booleans to numeric primitive values. Dates are compared by their
-        // millisecond representations. Note that invalid dates with millisecond representations
+        // Coerce dates and booleans to numeric primitive values. Dates are
+		// compared by their
+        // millisecond representations. Note that invalid dates with millisecond
+		// representations
         // of `NaN` are not equivalent.
         return +a == +b;
       // RegExps are compared by their source patterns and flags.
@@ -1854,7 +1876,8 @@ getJasmineRequireObj().matchersUtil = function(j$) {
     }
     if (typeof a != 'object' || typeof b != 'object') { return false; }
     // Assume equality for cyclic structures. The algorithm for detecting cyclic
-    // structures is adapted from ES 5.1 section 15.12.3, abstract operation `JO`.
+    // structures is adapted from ES 5.1 section 15.12.3, abstract operation
+	// `JO`.
     var length = aStack.length;
     while (length--) {
       // Linear search. Performance is inversely proportional to the number of
