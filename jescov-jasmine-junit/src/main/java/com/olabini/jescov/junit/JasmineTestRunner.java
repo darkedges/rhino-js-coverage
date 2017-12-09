@@ -14,6 +14,7 @@ import com.olabini.jescov.Configuration;
 import com.olabini.jescov.Coverage;
 import com.olabini.jescov.CoverageData;
 import com.olabini.jescov.generators.JsonIngester;
+import com.olabini.jescov.generators.HtmlGenerator;
 import com.olabini.jescov.generators.JsonGenerator;
 
 public class JasmineTestRunner extends be.klak.junit.jasmine.JasmineTestRunner {
@@ -53,6 +54,7 @@ public class JasmineTestRunner extends be.klak.junit.jasmine.JasmineTestRunner {
                 FileWriter fw = new FileWriter(fileout);
                 new JsonGenerator(fw).generate(data);
                 fw.close();
+                new HtmlGenerator(configuration).generate(data);
             } catch(IOException e) {
                 throw new RuntimeException(e);
             }

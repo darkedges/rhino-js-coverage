@@ -12,6 +12,5 @@
 		<module>jasmine-junit-runner</module>
 		<module>jescov</module>
 		<module>jescov-jasmine-junit</module>
-    <module>yourproject</module>
   </modules>
 </project>

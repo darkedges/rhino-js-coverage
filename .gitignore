@@ -6,3 +6,4 @@ eclipsecompiled
 *.iml
 .idea
 jescov.json.ser
+coverage-report
