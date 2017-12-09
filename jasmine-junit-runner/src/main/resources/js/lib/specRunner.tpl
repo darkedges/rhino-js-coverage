@@ -3,9 +3,11 @@
 <html>
 	<head>
 		<title>Jasmine Test Runner</title>
+		<link rel="shortcut icon" type="image/png" href="./../lib/jasmine-1.3.1/jasmine_favicon.png">
 		<link rel="stylesheet" type="text/css" href="./../lib/jasmine-1.3.1/jasmine.css">
-		<script type="text/javascript" src="./../lib/jasmine-1.3.1/jasmine.js"></script>
 		<script type="text/javascript" src="./../lib/jasmine-1.3.1/jasmine-html.js"></script>
+		<script type="text/javascript" src="./../lib/jasmine-1.3.1/jasmine.js"></script>
+		<script type="text/javascript" src="./../lib/jasmine-1.3.1/boot.js"></script>
 		
 		<!-- dit zijn de productie source js files: -->
 		<!--SourceFileIncludes-->

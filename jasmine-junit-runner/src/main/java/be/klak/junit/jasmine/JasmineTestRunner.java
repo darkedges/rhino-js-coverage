@@ -73,6 +73,8 @@ public class JasmineTestRunner extends Runner {
 
 	private void setUpJasmine(RhinoContext context) {
 		context.loadFromClasspath(JASMINE_LIB_DIR + "/jasmine.js");
+		context.loadFromClasspath(JASMINE_LIB_DIR + "/jasmine-html.js");
+		context.loadFromClasspath(JASMINE_LIB_DIR + "/boot.js");
 		context.loadFromClasspath(JASMINE_LIB_DIR + "/jasmine.delegator_reporter.js");
 
 		context.evalJS("jasmine.getEnv().addReporter(new jasmine.DelegatorJUnitReporter());");
@@ -135,6 +137,8 @@ public class JasmineTestRunner extends Runner {
 
 	private JasmineDescriptions getJasmineDescriptions() {
 		if (this.jasmineSuite == null) {
+			//NativeArray baseSuites = (NativeArray) rhinoContext.evalJS("jasmine.getEnv().currentRunner().suites()");
+			System.out.println(rhinoContext.evalJS("JSON.stringify(jasmine.getEnv())"));
 			NativeArray baseSuites = (NativeArray) rhinoContext.evalJS("jasmine.getEnv().currentRunner().suites()");
 			this.jasmineSuite = new JasmineJSSuiteConverter(rhinoContext).convertToJunitDescriptions(testClass, baseSuites);
 		}
