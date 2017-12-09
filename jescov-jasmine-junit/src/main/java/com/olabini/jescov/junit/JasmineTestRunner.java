@@ -26,21 +26,18 @@ public class JasmineTestRunner extends be.klak.junit.jasmine.JasmineTestRunner {
 
     @Override
     protected void pre(RhinoContext context) {
-    	System.out.println("pre");
         this.configuration = ConfigurationFactory.getConfiguration(suiteAnnotation);
         this.coverage = Coverage.on(context.getJsContext(), context.getJsScope(), configuration);
     }
 
     @Override
     protected void after() {
-    	System.out.println("after");
         this.coverage.done();
         super.after();
         outputCoverageResults();
     }
 
     private void outputCoverageResults() {
-    	System.out.println(configuration.isEnabled());
         if(configuration.isEnabled()) {
             CoverageData data = coverage.getCoverageData();
             String fileout = configuration.getJsonOutputFile();
