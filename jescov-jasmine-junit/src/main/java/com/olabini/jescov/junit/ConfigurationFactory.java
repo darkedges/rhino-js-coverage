@@ -32,6 +32,13 @@ public class ConfigurationFactory {
 
         if(System.getProperty("com.olabini.jescov.jsonOutputFile") != null) {
             config.setJsonOutputFile(System.getProperty("com.olabini.jescov.jsonOutputFile"));
+        } else {
+        	config.setJsonOutputFile("target/jescpv.json.ser");
+        }
+        if(System.getProperty("com.olabini.jescov.htmlOutputDir") != null) {
+            config.setHtmlOutputDir(System.getProperty("com.olabini.jescov.htmlOutputDir"));
+        } else {
+        	config.setHtmlOutputDir("target/coverage-report");
         }
 
         config.setJsonOutputMerge(Boolean.getBoolean("com.olabini.jescov.jsonMerge"));
