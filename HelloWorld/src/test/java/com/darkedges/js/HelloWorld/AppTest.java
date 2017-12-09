@@ -1,6 +1,5 @@
 package com.darkedges.js.HelloWorld;
 
-import org.junit.Before;
 import org.junit.runner.RunWith;
 
 import com.olabini.jescov.junit.JasmineTestRunner;

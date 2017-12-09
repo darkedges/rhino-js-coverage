@@ -12,6 +12,7 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<antlr.version>3.3</antlr.version>
 	</properties>
 
 	<dependencies>
@@ -23,7 +24,7 @@
 		<dependency>
 			<groupId>org.antlr</groupId>
 			<artifactId>antlr</artifactId>
-			<version>3.5.2</version>
+			<version>${antlr.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.antlr</groupId>
@@ -107,7 +108,7 @@
 			<plugin>
 				<groupId>org.antlr</groupId>
 				<artifactId>antlr3-maven-plugin</artifactId>
-				<version>3.5.2</version>
+				<version>${antlr.version}</version>
 				<executions>
 					<execution>
 						<goals>

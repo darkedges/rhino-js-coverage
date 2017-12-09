@@ -1,5 +1,5 @@
- var stuff = {
-		 DoCoolThings: function () {
-           return "awesome"
-        }
-    };
+var stuff = {
+	DoCoolThings : function() {
+		return "awesome"
+	}
+};

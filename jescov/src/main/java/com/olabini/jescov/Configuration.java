@@ -6,127 +6,133 @@ package com.olabini.jescov;
 import com.olabini.jescov.generators.Generator;
 
 public class Configuration {
-    public static interface Ignore {
-        boolean allow(String filename);
-    }
+	public static interface Ignore {
+		boolean allow(String filename);
+	}
 
-    public static class Allow implements Ignore {
-        public boolean allow(String filename) {
-            return true;
-        }
-    }
+	public static class Allow implements Ignore {
+		public boolean allow(String filename) {
+			return true;
+		}
+	}
 
-    public static class File implements Ignore {
-        private final String filename;
-        public File(String filename) {
-            this.filename = filename;
-        }
+	public static class File implements Ignore {
+		private final String filename;
 
-        public boolean allow(String filename) {
-            return !filename.endsWith(this.filename);
-        }
-    }
+		public File(String filename) {
+			this.filename = filename;
+		}
 
-    public static class Chained implements Ignore {
-        private final Ignore car;
-        private final Ignore cdr;
-        public Chained(Ignore car, Ignore cdr) {
-            this.car = car;
-            this.cdr = cdr;
-        }
+		public boolean allow(String filename) {
+			// Seems there is a rough file that is empty, so need to find it
+			if (this.filename != "")
+				return !filename.endsWith(this.filename);
+			else
+				return true;
+		}
+	}
 
-        public boolean allow(String filename) {
-            if(car.allow(filename)) {
-                return cdr.allow(filename);
-            } else {
-                return false;
-            }
-        }
-    }
+	public static class Chained implements Ignore {
+		private final Ignore car;
+		private final Ignore cdr;
 
-    private String jsonOutputFile = "jescov.json.ser";
-    private String xmlOutputFile = "coverage.xml";
-    private String htmlOutputDir = "coverage-report";
-    private boolean jsonOutputMerge = false;
-    private Ignore ignore = new Allow();
-    private boolean enabled = true;
-    private String sourceDirectory = ".";
+		public Chained(Ignore car, Ignore cdr) {
+			this.car = car;
+			this.cdr = cdr;
+		}
 
-    public String getSourceDirectory() {
-        return sourceDirectory;
-    }
+		public boolean allow(String filename) {
+			if (car.allow(filename)) {
+				return cdr.allow(filename);
+			} else {
+				return false;
+			}
+		}
+	}
 
-    public void setSourceDirectory(String sourceDirectory) {
-        this.sourceDirectory = sourceDirectory;
-    }
-    
-    public String getXmlOutputFile() {
-        return xmlOutputFile;
-    }
+	private String jsonOutputFile = "jescov.json.ser";
+	private String xmlOutputFile = "coverage.xml";
+	private String htmlOutputDir = "coverage-report";
+	private boolean jsonOutputMerge = false;
+	private Ignore ignore = new Allow();
+	private boolean enabled = true;
+	private String sourceDirectory = ".";
 
-    public void setJsonOutputFile(String file) {
-        this.jsonOutputFile = file;
-    }
+	public String getSourceDirectory() {
+		return sourceDirectory;
+	}
 
-    public void setXmlOutputFile(String file) {
-        this.xmlOutputFile = file;
-    }
+	public void setSourceDirectory(String sourceDirectory) {
+		this.sourceDirectory = sourceDirectory;
+	}
 
-    public void setHtmlOutputDir(String dir) {
-        this.htmlOutputDir = dir;
-    }
+	public String getXmlOutputFile() {
+		return xmlOutputFile;
+	}
 
-    public String getHtmlOutputDir() {
-        return htmlOutputDir;
-    }
+	public void setJsonOutputFile(String file) {
+		this.jsonOutputFile = file;
+	}
 
-    public boolean isEnabled() {
-        return enabled;
-    }
+	public void setXmlOutputFile(String file) {
+		this.xmlOutputFile = file;
+	}
 
-    public void enable() {
-        this.enabled = true;
-    }
+	public void setHtmlOutputDir(String dir) {
+		this.htmlOutputDir = dir;
+	}
 
-    public void disable() {
-        this.enabled = false;
-    }
+	public String getHtmlOutputDir() {
+		return htmlOutputDir;
+	}
 
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
-    }
+	public boolean isEnabled() {
+		return enabled;
+	}
 
-    public void ignore(String filename) {
-        ignore(new File(filename));
-    }
+	public void enable() {
+		this.enabled = true;
+	}
 
-    public void ignore(Ignore ignore) {
-        this.ignore = new Chained(ignore, this.ignore);
-    }
+	public void disable() {
+		this.enabled = false;
+	}
 
-    public String getJsonOutputFile() {
-        return this.jsonOutputFile;
-    }
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
+	}
 
-    public boolean isJsonOutputMerge() {
-        return this.jsonOutputMerge;
-    }
+	public void ignore(String filename) {
+		ignore(new File(filename));
+	}
 
-    public void setJsonOutputMerge(boolean merge) {
-        this.jsonOutputMerge = merge;
-    }
+	public void ignore(Ignore ignore) {
+		this.ignore = new Chained(ignore, this.ignore);
+	}
 
-    public boolean allow(String filename) {
-        return ignore.allow(filename);
-    }
+	public String getJsonOutputFile() {
+		return this.jsonOutputFile;
+	}
 
-    private Generator generator;
+	public boolean isJsonOutputMerge() {
+		return this.jsonOutputMerge;
+	}
 
-    public void setGenerator(Generator generator) {
-        this.generator = generator;
-    }
+	public void setJsonOutputMerge(boolean merge) {
+		this.jsonOutputMerge = merge;
+	}
 
-    public Generator getGenerator() {
-        return this.generator;
-    }
+	public boolean allow(String filename) {
+		return ignore.allow(filename);
+	}
+
+	private Generator generator;
+
+	public void setGenerator(Generator generator) {
+		this.generator = generator;
+	}
+
+	public Generator getGenerator() {
+		return this.generator;
+	}
 }
