@@ -327,7 +327,7 @@ getJasmineRequireObj().Spec = function(j$) {
 
     function complete() {
       self.result.status = self.status();
-      self.resultCallback(self.result);
+      self.resultCallback(self);
 
       if (onComplete) {
         onComplete();

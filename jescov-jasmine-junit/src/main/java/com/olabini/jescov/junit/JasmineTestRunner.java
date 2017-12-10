@@ -54,7 +54,7 @@ public class JasmineTestRunner extends be.klak.junit.jasmine.JasmineTestRunner {
                 FileWriter fw = new FileWriter(fileout);
                 new JsonGenerator(fw).generate(data);
                 fw.close();
-                new HtmlGenerator(configuration).generate(data);
+                //new HtmlGenerator(configuration).generate(data);
             } catch(IOException e) {
                 throw new RuntimeException(e);
             }

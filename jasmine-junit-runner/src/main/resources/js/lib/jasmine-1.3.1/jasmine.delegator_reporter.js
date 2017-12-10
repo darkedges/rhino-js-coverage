@@ -31,32 +31,27 @@ jasmineRequire.DelegatorJUnitReporter = function(j$) {
 		this.javaReporter = jasmine.DelegatorJUnitReporter.javaReporter;
 
 		this.initialize = function() {
-			console.log("initialize");
 		};
 
 		this.jasmineStarted = function(options) {
-			console.log("jasmineStarted:" + JSON.stringify(options));
 		};
 
 		this.suiteStarted = function(result) {
-			console.log("suiteStarted:" + JSON.stringify(result));
 		};
 
 		this.suiteDone = function(result) {
-			console.log("suiteDone:" + JSON.stringify(result));
 		};
 
 		this.specStarted = function(result) {
-			console.log("specStarted:" + JSON.stringify(result));
-			console.log(this.javaReporter)
 		};
 
-		this.specDone = function(result) {
-			console.log("specDone:" + JSON.stringify(result));
+		this.specDone = function(spec) {
+			spec.done=false;
+			if(spec.result.status==="passed")
+				spec.done=true;
 		};
 
 		this.jasmineDone = function() {
-			console.log("jasmineDone");
 		};
 
 		return this;
