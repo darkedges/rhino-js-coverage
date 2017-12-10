@@ -1,53 +1,66 @@
-(function() {
+/*
+Copyright (c) 2008-2013 Pivotal Labs
 
-    if (!jasmine) {
-        throw new Exception("jasmine library does not exist in global namespace!");
-    }
-	
-    /**
-     * Hooks up into the JUnit TestRunner system to allow Jasmine tests to run in Eclipse!
-	 * Also sets a "done" flag on the spec itself since there is nothing like it in Jasmine
-     */
-    var DelegatorJUnitReporter = function() {
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+"Software"), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ */
+jasmineRequire.delegateJunit = function(j$) {
+	j$.DelegatorJUnitReporter = jasmineRequire.DelegatorJUnitReporter(j$);
+};
+
+jasmineRequire.DelegatorJUnitReporter = function(j$) {
+
+	function DelegatorJUnitReporter(options) {
+		// var env = options.env || {};
 		this.javaReporter = jasmine.DelegatorJUnitReporter.javaReporter;
-	};
-	
-	DelegatorJUnitReporter.prototype = {
-        reportRunnerStarting: function(runner) {
-			if(this.javaReporter) {
-				this.javaReporter.reportRunnerStarting(runner);
-			}
-        },
 
-        reportSpecStarting: function(spec) {
-			spec.done = false;
-			
-			if(this.javaReporter) {
-				this.javaReporter.reportSpecStarting(spec);
-			}
-        },
+		this.initialize = function() {
+			console.log("initialize");
+		};
 
-        reportSpecResults: function(spec) {
-			spec.done = true;
-			
-			if(this.javaReporter) {
-				this.javaReporter.reportSpecResults(spec);
-			}
-        },
+		this.jasmineStarted = function(options) {
+			console.log("jasmineStarted:" + JSON.stringify(options));
+		};
 
-        reportSuiteResults: function(suite) {
-			if(this.javaReporter) {
-				this.javaReporter.reportSuiteResults(suite);
-			}
-        },
+		this.suiteStarted = function(result) {
+			console.log("suiteStarted:" + JSON.stringify(result));
+		};
 
-        reportRunnerResults: function(runner) {
-			if(this.javaReporter) {
-				this.javaReporter.reportRunnerResults(runner);
-			}
-        }
-    };
+		this.suiteDone = function(result) {
+			console.log("suiteDone:" + JSON.stringify(result));
+		};
 
-    // export public
-    jasmine.DelegatorJUnitReporter = DelegatorJUnitReporter;
-})();
+		this.specStarted = function(result) {
+			console.log("specStarted:" + JSON.stringify(result));
+			console.log(this.javaReporter)
+		};
+
+		this.specDone = function(result) {
+			console.log("specDone:" + JSON.stringify(result));
+		};
+
+		this.jasmineDone = function() {
+			console.log("jasmineDone");
+		};
+
+		return this;
+	}
+
+	return DelegatorJUnitReporter;
+};

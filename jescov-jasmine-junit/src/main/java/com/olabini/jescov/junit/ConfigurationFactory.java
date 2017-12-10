@@ -17,6 +17,8 @@ public class ConfigurationFactory {
         config.ignore("/lib/env.rhino.1.2.js");
 		config.ignore("/lib/env.utils.js");
 		config.ignore("/envJsOptions.js");
+		config.ignore("/lib/jasmine-1.3.1/boot.js");
+		config.ignore("/lib/jasmine-1.3.1/jasmine-html.js");
 		config.ignore("/lib/jasmine-1.3.1/jasmine.js");
 		config.ignore("/lib/jasmine-1.3.1/jasmine.delegator_reporter.js");
 		config.ignore("script");

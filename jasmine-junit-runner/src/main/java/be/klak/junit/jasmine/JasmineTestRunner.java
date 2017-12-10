@@ -73,9 +73,8 @@ public class JasmineTestRunner extends Runner {
 
 	private void setUpJasmine(RhinoContext context) {
 		context.loadFromClasspath(JASMINE_LIB_DIR + "/jasmine.js");
-		context.loadFromClasspath(JASMINE_LIB_DIR + "/jasmine-html.js");
-		context.loadFromClasspath(JASMINE_LIB_DIR + "/boot.js");
 		context.loadFromClasspath(JASMINE_LIB_DIR + "/jasmine.delegator_reporter.js");
+		context.loadFromClasspath(JASMINE_LIB_DIR + "/boot.js");
 
 		context.evalJS("jasmine.getEnv().addReporter(new jasmine.DelegatorJUnitReporter());");
 	}

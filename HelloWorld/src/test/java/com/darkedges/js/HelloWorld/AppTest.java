@@ -11,6 +11,6 @@ import be.klak.junit.jasmine.JasmineSuite;
  */
 @RunWith(JasmineTestRunner.class)
 @JasmineSuite(sources = {
-		"one.js" }, sourcesRootDir = "src/main/javascript", jsRootDir = "src/test/javascript", specs = { "oneSpec.js" })
+		"one.js" }, sourcesRootDir = "src/main/javascript", jsRootDir = "src/test/javascript", specs = { "oneSpec.js", "twoSpec.js" })
 public class AppTest {
 }
